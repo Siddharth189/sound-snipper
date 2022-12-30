@@ -1,0 +1,10 @@
+/server/venv/
+/server/**/__pycache__/
+
+
+
+
+/client/node_modules/
+/client/build
+/**/.dev.env
+/client/npm-debug.log*
