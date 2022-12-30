@@ -1,0 +1,42 @@
+converting audio from video
+    client side
+    select between timestamps
+basic login system
+music player
+saved audios
+download in diferent formats
+comments with timestamps
+privacy options
+
+MongoDB
+   audio in binary
+   id
+   comment
+       id
+       timestamp
+       comment
+       user
+   user details
+       username
+       password hash
+       email
+   privacy options
+
+
+ReactJS
+TailwindCSS
+React Router + lazy loading
+library to convert audio - wasm
+
+
+Flask
+cookies
+API endpoints:
+    GET /audiobin/<id>
+    POST /audiosend
+    POST /signup
+    GET /signin
+    DELETE /audiobin/<id>
+    GET /comments/<audioid>
+    POST /comments/<audioid>
+    GET /savedaudios
