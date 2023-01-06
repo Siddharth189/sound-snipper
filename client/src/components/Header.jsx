@@ -15,7 +15,7 @@ function Header() {
                 </span>
             </div>
             <div className="flex gap-4 pr-4 items-center">
-                <button className={`bg-blue-d h-min py-1 px-5 rounded-xl text-lg font-semibold whitespace-nowrap ${loginData.loggedin && "hidden md:block"}`}
+                <button className={`bg-blue-700 hover:bg-blue-d transition duration-200 h-min py-1 px-5 rounded-xl text-lg font-semibold whitespace-nowrap ${loginData.loggedin && "hidden md:block"}`}
                 >
                     LOG IN
                 </button>
