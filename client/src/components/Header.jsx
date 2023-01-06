@@ -25,7 +25,7 @@ function Header() {
                         <IconContext.Provider value={{size: "2em"}}> <AiOutlineUser /> </IconContext.Provider>
                         <span className="hidden md:block"> {loginData.username} </span>
                         <div className="hidden group-focus:block md:group-hover:block fixed top-0 right-4 pt-20">
-                            <div className="rounded-xl border-white/40 border-[1px] my-4 px-4 py-1">
+                            <div className="rounded-xl border-white/40 bg-dark-bg border-[1px] my-4 px-4 py-1">
                                 <div className="md:hidden text-center text-xl mb-2">
                                     {loginData.username}
                                 </div>
