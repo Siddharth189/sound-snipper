@@ -1,5 +1,6 @@
 /server/venv/
 /server/**/__pycache__/
+/server/config.cfg
 
 
 
