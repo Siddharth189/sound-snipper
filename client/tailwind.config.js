@@ -4,10 +4,20 @@ module.exports = {
   theme: {
     extend: {
         colors: {
-
+            "dark": {
+                "bg": "#121212",
+                "accent": "#1f1f1f",
+            },
+            "blue": {
+                "d": "#0027b3",
+                "l": "#00bcd4"
+            },
+            "red": {
+                "custom": "#b32b00"
+            }
         },
         fontFamily: {
-            
+            "nunito": "Nunito, sans-serif"
         }
     },
   },
