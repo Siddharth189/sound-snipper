@@ -2,6 +2,7 @@ import os
 from flask import Flask, send_from_directory, request
 from flask_cors import CORS
 from database import Database
+from utils.hash import hash
 
 app = Flask(__name__, static_folder='../client/build')
 CORS(app)

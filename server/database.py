@@ -4,7 +4,7 @@ import pymongo
 class Database:
     conn_str = f"mongodb+srv://{USER}:{PASSWORD}@{HOST}/"
 
-    def __init__(self):
+    def __init__(self) -> None:
         print(self.conn_str)
 
         client = pymongo.MongoClient(self.conn_str, serverSelectionTimeoutMS=5000)
@@ -22,44 +22,44 @@ class Database:
         
         self.client = client
 
-    def get_audio(self, audio_id):
+    def get_audio(self, audio_id: int):
         client = self.client
         # TODO
         # To return: Audio in Binary
 
     
-    def store_audio(self, username, audio, privacy_int):
+    def store_audio(self, username: str, audio, privacy_int: int):
         client = self.client
         # TODO
 
-    def delete_audio(self, audio_id):
+    def delete_audio(self, audio_id: int):
         client = self.client
         # TODO
 
-    def get_all_saved_audios(self, username):
+    def get_all_saved_audios(self, username: str) -> list[tuple[int, str, int]]:
         client = self.client
         # TODO
         # To return: Array of (audio_id, audio_name, length)
 
-    def get_comments(self, audio_id):
+    def get_comments(self, audio_id: int) -> list[tuple[str, str, str]]:
         client = self.client
         # TODO
         # To return: Array of (comment, username, timestamp)
 
-    def store_comment(self, audio_id, username, timestamp, comment):
+    def store_comment(self, audio_id: int, username: str, timestamp: str, comment: str):
         client = self.client
         # TODO
 
-    def register_user(self, username, pw_hash, email):
+    def register_user(self, username: str, pw_hash: str, email: str):
         client = self.client
         # TODO
 
-    def user_exists(self, username):
+    def user_exists(self, username: str) -> bool:
         client = self.client
         # TODO
         # To return: True or False
 
-    def get_pw(self, username):
+    def get_pw(self, username: str) -> str:
         client = self.client
         # TODO
         # To return: password hash of user
