@@ -1,9 +1,12 @@
 import os
 from flask import Flask, send_from_directory, request
 from flask_cors import CORS
+from database import Database
 
 app = Flask(__name__, static_folder='../client/build')
 CORS(app)
+
+db = Database()
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
@@ -15,6 +18,7 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 # APIs
+
 
 
 if __name__ == '__main__':

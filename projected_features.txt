@@ -9,18 +9,26 @@ comments with timestamps
 privacy options
 
 MongoDB
-   audio in binary
-   id
-   comment
-       id
-       timestamp
-       comment
-       user
-   user details
-       username
-       password hash
-       email
-   privacy options
+    audio in binary
+    name
+    length
+    id - autogenerate
+    comment
+        id - autogenerate
+        timestamp
+        comment
+        user
+    privacy options
+        0 for only me
+        1 for anyone can see
+        2 for anyone can see + comment
+    username
+
+    user details
+        username
+        password hash
+        email
+   
 
 
 ReactJS
