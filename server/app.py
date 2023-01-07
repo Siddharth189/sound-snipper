@@ -1,6 +1,7 @@
 import os
 from flask import Flask, send_from_directory, request, make_response
 from flask_cors import CORS
+import json
 from database import Database
 from utils.hash import hash
 from utils.rand_str import rand_str
@@ -52,7 +53,7 @@ def signup():
 
     pw_hash = hash(password)
     if db.user_exists(username):
-        response = make_response("User already exists", 401)
+        response = make_response("User already exists", 409)
     else:
         db.register_user(username, pw_hash, email)
         response = make_response()
@@ -64,6 +65,25 @@ def signup():
 
         session[username] = sessID
 
+    return response
+
+@app.route('/savedaudios')
+def saved_audios():
+    loginID = request.cookies.get('loginID')
+    sessionID = request.cookies.get('sessionID')
+    if not loginID or not sessionID:
+        response = make_response("Not Logged in", 401)
+    elif session.get(loginID) != sessionID:
+        response = make_response("Not Logged in", 401)
+        response.delete_cookie('loginID')
+        response.delete_cookie('sessionID')
+    else:
+        audios = db.get_all_saved_audios(loginID)
+        response = make_response(json.dumps(
+            {
+                "audios": audios
+            }
+        ))
     return response
 
 if __name__ == '__main__':
