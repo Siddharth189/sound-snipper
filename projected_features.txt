@@ -43,7 +43,7 @@ API endpoints:
     GET /audiobin/<id>
     POST /audiosend
     POST /signup
-    GET /signin
+    POST /signin
     DELETE /audiobin/<id>
     GET /comments/<audioid>
     POST /comments/<audioid>
