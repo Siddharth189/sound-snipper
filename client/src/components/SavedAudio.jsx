@@ -9,7 +9,7 @@ function SavedAudio(props) {
             </IconContext.Provider>
             <div className="flex flex-col ml-6">
                 <span className="font-semibold text-2xl opacity-80"> {props.title} </span>
-                <span className="font-semibold text-xl"> {props.time} </span>
+                <span className="font-semibold text-xl text-left"> {props.time} </span>
             </div>
         </button>
     );

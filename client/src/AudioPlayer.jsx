@@ -2,13 +2,21 @@ import React, { useState, useEffect, useRef } from "react";
 import AudioControls from "./AudioControls";
 import Backdrop from "./Backdrop";
 import "./styles.css";
+import audioContext from "./contexts/AudioContext";
 
-const AudioPlayer = ({ tracks }) => {
+const AudioPlayer = ({ tracks, setComments }) => {
+
+//   useEffect(() => {
+//     if (audio) {
+//         tracks = [audio.data];
+//     }
+//   }, [audio])
   // State
   const [trackIndex, setTrackIndex] = useState(0);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const [comment, setComment] = useState("");
   // Destructure for conciseness
   const { title, artist, color, image, audioSrc } = tracks[trackIndex];
 
@@ -141,10 +149,23 @@ const AudioPlayer = ({ tracks }) => {
       />
 
       <div className="flex justify-center gap-6">
-        <button className="bg-dark-accent/30 transition duration-200 rounded-lg py-1 pl-2 pr-3 font-semibold flex items-center gap-1">
+        <button onClick={() => {
+            setComments((prev) => {
+                const p = [...prev]
+                if (comment === "") { return p; }
+                const c = {
+                    comment: comment,
+                    timestamp: audioRef.current.currentTime
+                }
+                p.push(c);
+                setComment("");
+                p.sort((a, b) => a.timestamp - b.timestamp)
+                return p;
+            });
+        }} className="bg-dark-accent/30 transition duration-200 rounded-lg py-1 pl-2 pr-3 font-semibold flex items-center gap-1">
           Comment
         </button>
-        <input type="text" name="comment" placeholder="Comment here..." className=" rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72" />
+        <input onChange={(e) => {setComment(e.target.value)}} type="text" name="comment" value={comment} placeholder="Comment here..." className="rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72" />
       </div>
 
     </div>

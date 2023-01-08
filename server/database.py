@@ -116,7 +116,7 @@ class Database:
         db = client.SoundSnipper
         col = db.user_details
         x = col.find_one({'username':username},{'pw_hash': 1, "_id": 0})
-        return x
+        return x['pw_hash']
 
     def get_audio_privacy(self, audio_id: int) -> tuple[int, str]:
         client = self.client

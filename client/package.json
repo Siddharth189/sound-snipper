@@ -6,6 +6,7 @@
     "antd": "^5.1.2",
     "audio": "^1.2.0",
     "axios": "^1.2.2",
+    "fluent-ffmpeg": "^2.1.2",
     "framer-motion": "^8.0.2",
     "react": "^18.2.0",
     "react-audio-spectrum": "^0.1.0",

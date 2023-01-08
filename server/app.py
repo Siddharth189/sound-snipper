@@ -2,10 +2,13 @@ import os
 from flask import Flask, send_from_directory, request, make_response
 from flask_cors import CORS
 import json
+import moviepy.editor as mp
 from io import BytesIO
 from database import Database
 from utils.hash import hash
 from utils.rand_str import rand_str
+
+os.chdir(__file__.replace(os.path.basename(__file__), ''))
 
 app = Flask(__name__, static_folder='../client/build')
 CORS(app)
@@ -170,6 +173,7 @@ def audiobin(audioid):
 def audiosend():
     loginID = request.cookies.get('loginID')
     sessionID = request.cookies.get('sessionID')
+    print(loginID, sessionID)
     if not loginID or not sessionID:
         response = make_response("Not Logged in", 401)
     elif session.get(loginID) != sessionID:
@@ -177,15 +181,24 @@ def audiosend():
         response.delete_cookie('loginID')
         response.delete_cookie('sessionID')
     else:
-        audio_name = request.json['name']
-        audio_length = request.josn['length']
         privacy_int = request.json['privacy']
+        loginID = request.json['username']
 
-        file = request.files['audio']
+        file = request.json['file']
+        print(file)
+        # return
+        audio_name = file.filename.replace(".mp4", "")
+        file.save("/temp/" + file.filename)
 
-        buf = BytesIO()
-        file.save(buf)
-        audio = buf.getvalue()
+
+        # buf = BytesIO()
+        # file.save(buf)
+        # audio = buf.getvalue()
+        clip = mp.VideoFileClip("/temp/" + file.filename)
+        clip.audio.write_audiofile("temp.mp3")
+        audio_length = clip.audio.duration
+        with open("temp.mp3", 'rb') as f:
+            audio = f.read()
 
         id = db.store_audio(audio, loginID, audio_name, audio_length, privacy_int)
 
