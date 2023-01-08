@@ -1,7 +1,10 @@
 import SavedAudio from "./SavedAudio";
 import { AiOutlineUpload } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import AudioPlayer from "../AudioPlayer";
+import tracks from "../tracks";
 import Player from "./Player";
+
 
 
 function Body() {
@@ -16,8 +19,9 @@ function Body() {
                     <input type="text" name="link" placeholder="Paste a link..." className=" rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72"/>
                 </div>
                 <Player />
+                <AudioPlayer tracks={tracks} />
             </div>
-            <div className="flex-grow-[3] rounded-3xl bg-dark-accent mt-6 md:mt-0 flex flex-col items-center pb-6">
+            <div className="flex-grow-[3] rounded-3xl bg-dark-accent/20 mt-6 md:mt-0 flex flex-col items-center pb-6">
                 <span className="text-3xl font-bold mt-4 mb-12"> SAVED AUDIOS </span>
                 <SavedAudio title={"Audio Title"} time={"03:45"} />
             </div>

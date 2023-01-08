@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "audio": "^1.2.0",
     "axios": "^1.2.2",
     "framer-motion": "^8.0.2",
     "react": "^18.2.0",
