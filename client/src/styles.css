@@ -103,6 +103,7 @@ input[type="range"] {
   animation: colorChange 20s alternate infinite;
 }
 
+
 @keyframes colorChange {
   from {
     filter: hue-rotate(0deg);

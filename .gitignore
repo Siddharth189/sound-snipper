@@ -10,3 +10,4 @@
 /client/build
 /**/.dev.env
 /client/npm-debug.log*
+node_modules

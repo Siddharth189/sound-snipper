@@ -139,6 +139,14 @@ const AudioPlayer = ({ tracks }) => {
         activeColor={color}
         isPlaying={isPlaying}
       />
+
+      <div className="flex justify-center gap-6">
+        <button className="bg-dark-accent/30 transition duration-200 rounded-lg py-1 pl-2 pr-3 font-semibold flex items-center gap-1">
+          Comment
+        </button>
+        <input type="text" name="comment" placeholder="Comment here..." className=" rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72" />
+      </div>
+
     </div>
   );
 };
