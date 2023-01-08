@@ -11,7 +11,8 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
-    "redux": "^4.2.0"
+    "redux": "^4.2.0",
+    "video-to-audio": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

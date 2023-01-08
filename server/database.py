@@ -30,8 +30,9 @@ class Database:
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
-        x = col.find({'audio_id': audio_id})
-        return x.audio
+        x = col.find_one({'audio_id': audio_id})
+        if not x: return None
+        return x["audio"]
     
     def store_audio(self, audio_id: int, audio, username: str, audio_name: str, audio_length: int, privacy_option: int):
         client = self.client
@@ -60,17 +61,18 @@ class Database:
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
-        x = col.find({'username': username},{"audio_id": 1, "audio_name": 1, "length": 1, "id": 0})
+        x = col.find({'username': username},{"audio_id": 1, "audio_name": 1, "length": 1, "_id": 0})
         for rec in x:
             arr_audio.append(rec)
         return arr_audio
+        
 
     def get_comments(self, audio_id: int) -> list[tuple[str, str, str]]:
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
-        x = col.find({'audio_id': audio_id})
-        return x.comments
+        x = col.find_one({'audio_id': audio_id},{"comments": 1, "_id":0})
+        return x
         
 
 
@@ -101,7 +103,7 @@ class Database:
     def user_exists(self, username: str) -> bool:
         client = self.client
         db = client["SoundSnipper"] 
-        col = db["Audio"]
+        col = db.user_details
         return col.count_documents({'username': username}) > 0
         # TODO
         # To return: True or False
@@ -117,7 +119,37 @@ class Database:
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
-        return col.find_one({"audio_id":audio_id},{"privacy_int":1, "username":1, "_id":0})
+        return col.find_one({"audio_id":audio_id},{"privacy_option":1, "username":1, "_id":0})
 
 if __name__ == '__main__':
     db = Database()
+
+    # print((db.get_audio(5)))
+
+    # db.store_audio(1,123,'hritik','water',3,1)
+
+    # db.delete_audio(5)
+
+    # db.store_audio(1,123,'hritik','water',3,1)
+    # db.store_audio(2,124,'abhinav','bubble',4,2)
+    # db.store_audio(3,125,'siddharth','snooze',5,0)
+    # db.store_audio(4,126,'hritik','hello',3,1)
+    # print(db.get_all_saved_audios('hency'))
+
+    # db.store_comment(1,'xyz','120','Nice')
+
+
+    # db.store_comment(1,'xyl','121','Nice Bro')
+    # db.store_comment(1,'xyp','122','Nice My Friend')
+    # print(db.get_comments(5))
+
+    
+
+    # db.register_user('hritik','he123','hritik@email.com')
+
+    # print(db.user_exists('hritikasd'))
+
+    # print(db.get_pw('hritik123'))
+
+    # print(db.get_audio_privacy(5))
+
