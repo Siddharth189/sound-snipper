@@ -49,6 +49,8 @@ class Database:
             "privacy_option": privacy_option
         }
         rec_id = col.insert_one(rec)
+
+        return audio_id
         
 
     def delete_audio(self, audio_id: int):
