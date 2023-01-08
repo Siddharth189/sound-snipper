@@ -34,7 +34,8 @@ class Database:
         if not x: return None
         return x["audio"]
     
-    def store_audio(self, audio_id: int, audio, username: str, audio_name: str, audio_length: int, privacy_option: int):
+    def store_audio(self, audio, username: str, audio_name: str, audio_length: int, privacy_option: int):
+        audio_id = self.next_audio_id()
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
@@ -121,6 +122,23 @@ class Database:
         col = db.Audio
         return col.find_one({"audio_id":audio_id},{"privacy_option":1, "username":1, "_id":0})
 
+    def next_audio_id(self):
+        client = self.client
+        db = client.SoundSnipper
+        col = db.Id
+        x = col.find_one()
+        if not x: 
+            res = col.insert_one({
+                "current_id": 0
+            })
+            return 0
+        id = x["current_id"] + 1
+        rec = col.update_one({},{"$set": { "current_id": id } })
+        return id
+        
+        
+        
+
 if __name__ == '__main__':
     db = Database()
 
@@ -152,4 +170,6 @@ if __name__ == '__main__':
     # print(db.get_pw('hritik123'))
 
     # print(db.get_audio_privacy(5))
+
+    # db.next_audio_id()
 
