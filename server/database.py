@@ -95,7 +95,10 @@ class Database:
         # To return: password hash of user
 
 
-
+    def get_audio_privacy(self, audio_id: int) -> tuple[int, str]:
+        client = self.client
+        # TODO
+        # To return: (privacy_int and username) of the audio
 
 if __name__ == '__main__':
     db = Database()
