@@ -24,30 +24,60 @@ class Database:
 
     def get_audio(self, audio_id: int):
         client = self.client
-        # TODO
-        # To return: Audio in Binary
-
+        db = client["SoundSnipper"] 
+        col = db["Audio"]
+        x = col.find({},{'audio_id': audio_id})
+        return x["binary"]
     
-    def store_audio(self, username: str, audio, privacy_int: int):
+    def store_audio(self, audio_id: int, audio, username: str, audio_name: str, audio_length: int, privacy_option: int):
         client = self.client
-        # TODO
+        db = client.database
+        col = db.my_collection
+        rec = {
+            "audio_id": audio_id,
+            "audio": audio,
+            "username": username,
+            "audio_name": audio_name,
+            "audio_length": audio_length,
+            "privacy_option": privacy_option
+        }
+        rec_id = col.insert_one(rec)
+        
 
     def delete_audio(self, audio_id: int):
         client = self.client
-        # TODO
+        db = client.database
+        col = db.my_collection
+        result = col.delete_one({"audio_id": audio_id})
+
 
     def get_all_saved_audios(self, username: str) -> list[tuple[int, str, int]]:
         client = self.client
+        db = client.database
+        col = db.my_collection
+        x = col.find({},{'username': username})
+        arr = [x.audio_id,x.audio_name,x.length]
         # TODO
         # To return: Array of (audio_id, audio_name, length)
 
     def get_comments(self, audio_id: int) -> list[tuple[str, str, str]]:
         client = self.client
+        db = client.database
+        col = db.my_collection
+        x = col.find({},{'audio_id': audio_id})
+        arr = [x.comment, x.username, x.timestamp]
         # TODO
         # To return: Array of (comment, username, timestamp)
 
     def store_comment(self, audio_id: int, username: str, timestamp: str, comment: str):
         client = self.client
+        db = client.database
+        col = db.my_collection
+        rec = {
+            "audio_id": audio_id,
+            "username": username
+        }
+        rec_id = col.insert_one(rec)
         # TODO
 
     def register_user(self, username: str, pw_hash: str, email: str):
