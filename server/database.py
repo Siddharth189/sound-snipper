@@ -1,5 +1,9 @@
 from config import *
 import pymongo
+import datetime
+
+arr_audio = []
+arr_comments = []
 
 class Database:
     conn_str = f"mongodb+srv://{USER}:{PASSWORD}@{HOST}/"
@@ -22,23 +26,25 @@ class Database:
         
         self.client = client
 
+
     def get_audio(self, audio_id: int):
         client = self.client
-        db = client["SoundSnipper"] 
-        col = db["Audio"]
-        x = col.find({},{'audio_id': audio_id})
-        return x["binary"]
+        db = client.SoundSnipper
+        col = db.Audio
+        x = col.find({'audio_id': audio_id})
+        return x.audio
     
     def store_audio(self, audio_id: int, audio, username: str, audio_name: str, audio_length: int, privacy_option: int):
         client = self.client
-        db = client.database
-        col = db.my_collection
+        db = client.SoundSnipper
+        col = db.Audio
         rec = {
             "audio_id": audio_id,
             "audio": audio,
             "username": username,
             "audio_name": audio_name,
             "audio_length": audio_length,
+            "comments": [],
             "privacy_option": privacy_option
         }
         rec_id = col.insert_one(rec)
@@ -46,53 +52,69 @@ class Database:
 
     def delete_audio(self, audio_id: int):
         client = self.client
-        db = client.database
-        col = db.my_collection
+        db = client.SoundSnipper
+        col = db.Audio
         result = col.delete_one({"audio_id": audio_id})
 
 
     def get_all_saved_audios(self, username: str) -> list[tuple[int, str, int]]:
         client = self.client
-        db = client.database
-        col = db.my_collection
-        x = col.find({},{'username': username})
-        arr = [x.audio_id,x.audio_name,x.length]
-        # TODO
-        # To return: Array of (audio_id, audio_name, length)
+        db = client.SoundSnipper
+        col = db.Audio
+        x = col.find({'username': username},{"audio_id": 1, "audio_name": 1, "length": 1, "id": 0})
+        for rec in x:
+            arr_audio.append(rec)
+        return arr_audio
 
     def get_comments(self, audio_id: int) -> list[tuple[str, str, str]]:
         client = self.client
-        db = client.database
-        col = db.my_collection
-        x = col.find({},{'audio_id': audio_id})
-        arr = [x.comment, x.username, x.timestamp]
-        # TODO
-        # To return: Array of (comment, username, timestamp)
+        db = client.SoundSnipper
+        col = db.Audio
+        x = col.find({'audio_id': audio_id})
+        return x.comments
+        
 
     def store_comment(self, audio_id: int, username: str, timestamp: str, comment: str):
         client = self.client
-        db = client.database
-        col = db.my_collection
+        db = client.SoundSnipper
+        col = db.Audio
         rec = {
-            "audio_id": audio_id,
-            "username": username
+            "username": username,
+            "timestamp": timestamp,
+            "comment": comment
         }
-        rec_id = col.insert_one(rec)
-        # TODO
+        col.update_one({'audio_id': audio_id}, {'$push': {'comments': rec}})
+        
+      
 
     def register_user(self, username: str, pw_hash: str, email: str):
         client = self.client
-        # TODO
+        db = client.SoundSnipper
+        col = db.user_details
+        rec = {
+            "username": username,
+            "pw_hash": pw_hash,
+            "email": email
+        }
+        rec_id = col.insert_one(rec)
 
     def user_exists(self, username: str) -> bool:
         client = self.client
-        # TODO
-        # To return: True or False
+        db = client.SoundSnipper
+        col = db.user_details
+        if(col.count_documents({'username': username}) > 0):
+            return True;
+        else:
+            return False;
 
     def get_pw(self, username: str) -> str:
         client = self.client
-        # TODO
-        # To return: password hash of user
+        db = client.SoundSnipper
+        col = db.user_details
+        x = col.find_one({'username':username},{'pw_hash': 1, "_id": 0})
+        return x
+
+    
 
 
 
