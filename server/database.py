@@ -74,7 +74,13 @@ class Database:
         return x.comments
         
 
+
     def store_comment(self, audio_id: int, username: str, timestamp: str, comment: str):
+        # comment - list of dictionaries
+        # id - autogenerate
+        # timestamp
+        # comment
+        
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
@@ -100,12 +106,11 @@ class Database:
 
     def user_exists(self, username: str) -> bool:
         client = self.client
-        db = client.SoundSnipper
-        col = db.user_details
-        if(col.count_documents({'username': username}) > 0):
-            return True;
-        else:
-            return False;
+        db = client["SoundSnipper"] 
+        col = db["Audio"]
+        return col.count_documents({'username': username}) > 0
+        # TODO
+        # To return: True or False
 
     def get_pw(self, username: str) -> str:
         client = self.client
@@ -117,7 +122,10 @@ class Database:
     
 
 
-
+    def get_audio_privacy(self, audio_id: int) -> tuple[int, str]:
+        client = self.client
+        # TODO
+        # To return: (privacy_int and username) of the audio
 
 if __name__ == '__main__':
     db = Database()
