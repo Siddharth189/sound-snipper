@@ -33,13 +33,15 @@ class Database:
         client = self.client
         db = client.database
         col = db.my_collection
+        comment = []
         rec = {
             "audio_id": audio_id,
             "audio": audio,
             "username": username,
             "audio_name": audio_name,
             "audio_length": audio_length,
-            "privacy_option": privacy_option
+            "privacy_option": privacy_option, 
+            "comment":comment
         }
         rec_id = col.insert_one(rec)
         
@@ -55,8 +57,10 @@ class Database:
         client = self.client
         db = client.database
         col = db.my_collection
-        x = col.find({},{'username': username})
-        arr = [x.audio_id,x.audio_name,x.length]
+        audios = []
+        for audio in col.find({'username': username}):
+            audios.append((audio['audio_id'], audio['audio_name'], audio['audio_length']))
+        return audios
         # TODO
         # To return: Array of (audio_id, audio_name, length)
 
@@ -64,20 +68,32 @@ class Database:
         client = self.client
         db = client.database
         col = db.my_collection
-        x = col.find({},{'audio_id': audio_id})
+        x = col.find({'audio_id': audio_id})
         arr = [x.comment, x.username, x.timestamp]
+        
         # TODO
         # To return: Array of (comment, username, timestamp)
 
+
     def store_comment(self, audio_id: int, username: str, timestamp: str, comment: str):
+        # comment - list of dictionaries
+        # id - autogenerate
+        # timestamp
+        # comment
+        
         client = self.client
         db = client.database
         col = db.my_collection
-        rec = {
-            "audio_id": audio_id,
-            "username": username
-        }
-        rec_id = col.insert_one(rec)
+        comment_dict = {
+                        'timestamp' : timestamp, 
+                        'comment' : comment, 
+                        'username' : username}
+
+        
+        rec_id = col.updateOne(
+        { 'audio_id' : audio_id },
+        { '$push': { 'comment': comment_dict } }
+        )
         # TODO
 
     def register_user(self, username: str, pw_hash: str, email: str):
@@ -86,11 +102,15 @@ class Database:
 
     def user_exists(self, username: str) -> bool:
         client = self.client
+        db = client["SoundSnipper"] 
+        col = db["Audio"]
+        return col.count_documents({'username': username}) > 0
         # TODO
         # To return: True or False
 
     def get_pw(self, username: str) -> str:
         client = self.client
+        
         # TODO
         # To return: password hash of user
 
