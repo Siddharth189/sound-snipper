@@ -1,7 +1,5 @@
 import { AiOutlineShareAlt, AiOutlineDownload } from "react-icons/ai";
-import { IoPlayForward, IoPlayBack } from "react-icons/io5";
 import { IconContext } from "react-icons";
-import Audio from "./Audio";
 
 function Player() {
     return (
@@ -23,25 +21,6 @@ function Player() {
                         <AiOutlineDownload />{" "}
                     </IconContext.Provider>
                 </div>
-            </div>
-            <div className="flex w-full justify-center">
-                
-                <button className=" rounded-lg py-1 pl-2 pr-10 font-semibold flex items-center ">
-                <IconContext.Provider value={{ size: "3em" }}>
-                        {" "}
-                        <IoPlayBack />{" "}
-                    </IconContext.Provider>
-                </button>
-                <Audio
-                    url={"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
-                />
-                <button className=" rounded-lg py-1 pl-10 pr-3 font-semibold flex items-center ">
-                <IconContext.Provider value={{ size: "3em" }}>
-                        {" "}
-                        <IoPlayForward />{" "}
-                    </IconContext.Provider>
-                </button>
-
             </div>
         </div>
     );

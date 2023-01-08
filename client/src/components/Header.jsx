@@ -7,7 +7,7 @@ function Header() {
     const { loginData } = useContext(LoginContext);
 
     return (
-        <div className="bg-dark-accent w-screen h-20 rounded-b-2xl fixed top-0 flex justify-between">
+        <div className="bg-dark-accent/60 w-screen h-20 rounded-b-2xl fixed top-0 flex justify-between">
             <div className="flex px-6 py-2 gap-8">
                 <img src="/logo.png" alt="logo" className="h-[60%] md:h-full w-auto my-auto" />
                 <span className="my-auto font-bold text-lg md:text-3xl">
