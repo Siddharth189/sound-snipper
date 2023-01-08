@@ -1,6 +1,5 @@
 from config import *
 import pymongo
-import datetime
 
 arr_audio = []
 arr_comments = []
@@ -76,11 +75,6 @@ class Database:
 
 
     def store_comment(self, audio_id: int, username: str, timestamp: str, comment: str):
-        # comment - list of dictionaries
-        # id - autogenerate
-        # timestamp
-        # comment
-        
         client = self.client
         db = client.SoundSnipper
         col = db.Audio
@@ -119,13 +113,11 @@ class Database:
         x = col.find_one({'username':username},{'pw_hash': 1, "_id": 0})
         return x
 
-    
-
-
     def get_audio_privacy(self, audio_id: int) -> tuple[int, str]:
         client = self.client
-        # TODO
-        # To return: (privacy_int and username) of the audio
+        db = client.SoundSnipper
+        col = db.Audio
+        return col.find_one({"audio_id":audio_id},{"privacy_int":1, "username":1, "_id":0})
 
 if __name__ == '__main__':
     db = Database()
