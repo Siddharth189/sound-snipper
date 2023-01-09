@@ -3,6 +3,7 @@ from flask import Flask, send_from_directory, request, make_response
 from flask_cors import CORS
 import json
 import moviepy.editor as mp
+import pafy
 from io import BytesIO
 from database import Database
 from utils.hash import hash
@@ -44,6 +45,9 @@ def signin():
 
         sessID = rand_str()
         response.set_cookie('sessionID', sessID)
+        response.headers['Access-Control-Allow-Origin'] = request.headers['origin']
+        response.headers['Access-Control-Allow-Credentials'] = True
+        response.headers['Access-Control-Expose-Headers'] = 'date, etag, access-control-allow-origin, access-control-allow-credentials'
 
         session[username] = sessID
     return response
@@ -171,41 +175,55 @@ def audiobin(audioid):
 
 @app.route("/audiosend", methods=['POST'])
 def audiosend():
-    loginID = request.cookies.get('loginID')
-    sessionID = request.cookies.get('sessionID')
-    print(loginID, sessionID)
-    if not loginID or not sessionID:
-        response = make_response("Not Logged in", 401)
-    elif session.get(loginID) != sessionID:
-        response = make_response("Not Logged in", 401)
-        response.delete_cookie('loginID')
-        response.delete_cookie('sessionID')
-    else:
+    # loginID = request.cookies.get('loginID')
+    # sessionID = request.cookies.get('sessionID')
+    # print(loginID, sessionID)
+    # if not loginID or not sessionID:
+    #     response = make_response("Not Logged in", 401)
+    # elif session.get(loginID) != sessionID:
+    #     response = make_response("Not Logged in", 401)
+    #     response.delete_cookie('loginID')
+    #     response.delete_cookie('sessionID')
+    # else:
         privacy_int = request.json['privacy']
         loginID = request.json['username']
 
         file = request.json['file']
-        print(file)
+        url = request.json['url']
+        # print(file)
         # return
-        audio_name = file.filename.replace(".mp4", "")
-        file.save("/temp/" + file.filename)
+        
 
 
         # buf = BytesIO()
         # file.save(buf)
         # audio = buf.getvalue()
-        clip = mp.VideoFileClip("/temp/" + file.filename)
-        clip.audio.write_audiofile("temp.mp3")
-        audio_length = clip.audio.duration
-        with open("temp.mp3", 'rb') as f:
-            audio = f.read()
+        if file:
+            audio_name = file.filename.replace(".mp4", "")
+            file.save("/temp/" + file.filename)
+            clip = mp.VideoFileClip("/temp/" + file.filename)
+            clip.audio.write_audiofile("temp.mp3")
+            audio_length = clip.audio.duration
+            with open("temp.mp3", 'rb') as f:
+                audio = f.read()
+        elif url:
+            v = pafy.new(url)
+            stream = v.getbestaudio()
+            name = v.title
+            audio_length = v.length
+            path = os.path.join(app.static_folder, f"{name}.ogg")
+            stream.download(path)
+            with open(path, 'rb') as f:
+                audio = f.read()
+            audio_name = name
 
         id = db.store_audio(audio, loginID, audio_name, audio_length, privacy_int)
 
         response = make_response(json.dumps({
-            'id': id
+            'id': id,
+            'name': f"{audio_name}.ogg"
         }), 200)
-    return response
+        return response
 
 
 @app.route('/test')

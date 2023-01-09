@@ -9,6 +9,7 @@ import AudioContext from "../contexts/AudioContext";
 import convert from "../utils/timeConvert";
 import axios from "axios";
 import LoginContext from "../contexts/LoginContext";
+import Modal from "./Modal";
 
 
 function Body() {
@@ -18,15 +19,36 @@ function Body() {
     const {loginData} = useContext(LoginContext);
     const [comments, setComments] = useState([]);
 
+    const [modal, setModal] = useState(false);
+
+    const [url, setUrl] = useState("");
+
     async function handleUpload(e) {
         console.log(fileUploadElement.current.files[0]);
         await axios.post("http://localhost:5000/audiosend", {
             file: fileUploadElement.current.files[0].src,
             privacy: 2,
-            username: loginData.username
+            username: loginData.username,
+            url: ""
         })
         .then(res => res.data)
         
+    }
+
+    async function handleSubmit(e) {
+        axios.post("http://localhost:5000/audiosend", {
+            file: "",
+            privacy: 2,
+            username: loginData.username,
+            url: url
+        })
+        .then(res => res.data)
+        .then((res) => {
+            setAudio(res.name);
+            setModal(false);
+        })
+        setModal(true);
+
     }
 
     return (
@@ -38,7 +60,11 @@ function Body() {
                         Upload Media File
                     </button>
                     <input type="file" onChange={handleUpload} ref={fileUploadElement} name="audioupload" id="audioupload" className="hidden" accept="video/mp4 video/mkv" />
-                    <input type="text" name="link" placeholder="Paste a link..." className=" rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72"/>
+                    <input type="text" name="link" value={url} onChange={(e) => {setUrl(e.target.value)}} placeholder="Paste a link..." className=" rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72"/>
+                    <button className="bg-red-custom hover:bg-red-800 transition duration-200 rounded-lg py-1 pl-2 pr-3 font-semibold"
+                    onClick={handleSubmit}>
+                        Submit
+                    </button>
                 </div>
                 <div className="flex justify-around w-full">
                     <div className="flex-grow flex flex-col items-center -mx-44">
@@ -67,8 +93,11 @@ function Body() {
             </div>
             <div className="flex-grow-[3] rounded-3xl bg-dark-accent/20 mt-6 md:mt-0 flex flex-col items-center pb-6">
                 <span className="text-3xl font-bold mt-4 mb-12"> SAVED AUDIOS </span>
-                <SavedAudio title={"Audio Title"} time={"03:45"} />
+                <SavedAudio title={"Ed Sheeran - Perfect"} time={"04:40"} />
+                <SavedAudio title={"Shallow - Lady Gaga..."} time={"03:37"} />
             </div>
+
+            {modal && <Modal />}
         </div>
     );
 }

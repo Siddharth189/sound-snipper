@@ -1,16 +1,30 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import AudioControls from "./AudioControls";
 import Backdrop from "./Backdrop";
 import "./styles.css";
-import audioContext from "./contexts/AudioContext";
+import AudioContext from "./contexts/AudioContext";
+import LoginContext from "./contexts/LoginContext";
+import imgSrc from "./assets/artwork.jpg";
 
 const AudioPlayer = ({ tracks, setComments }) => {
 
-//   useEffect(() => {
-//     if (audio) {
-//         tracks = [audio.data];
-//     }
-//   }, [audio])
+  const {audio} = useContext(AudioContext);
+  const {loginData} = useContext(LoginContext);
+
+  useEffect(() => {
+    if (audio) {
+        tracks = [
+            {
+                title: audio,
+                artist: loginData.username,
+                audioSrc: audio,
+                image: imgSrc,
+                color: "#00aeb0"
+            }
+        ];
+    }
+  }, [audio])
+
   // State
   const [trackIndex, setTrackIndex] = useState(0);
   const [trackProgress, setTrackProgress] = useState(0);

@@ -21,6 +21,37 @@ module.exports = {
         },
         fontFamily: {
             "nunito": "Nunito, sans-serif"
+        },
+        animation: {
+            'svgfill': "svgfill 0.5s linear forwards",
+            dash: "dash 1.5s ease-in-out infinite",
+            spin: "spin 1.5s linear infinite"
+        },
+        keyframes: {
+            'svgfill': {
+                '0%': {
+                    fill: "white",
+                    stroke: "#2E3192"
+                },
+                '100%': {
+                    fill: "#2E3192",
+                    stroke: "transparent"
+                }
+            },
+            dash: {
+                '0%': {
+                    'stroke-dasharray': '1, 200',
+                    'stroke-dashoffset': 0
+                },
+                '50%': {
+                    'stroke-dasharray': '89, 200',
+                    'stroke-dashoffset': '-35px'
+                },
+                '100%': {
+                    'stroke-dasharray': '89, 200',
+                    'stroke-dashoffset': '-124px'
+                }
+            }
         }
     },
   },

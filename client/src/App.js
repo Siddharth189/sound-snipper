@@ -17,7 +17,10 @@ function App() {
             "username": "audiophile123",
             "password": "password"
         })
-        .then(res => res.data)
+        .then(res => {
+            console.log(res);
+            return res.data
+        })
         .then((res) => {
             setLoginData({
                 loggedin: true,
