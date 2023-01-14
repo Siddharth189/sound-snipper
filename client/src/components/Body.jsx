@@ -24,20 +24,20 @@ function Body() {
     const [url, setUrl] = useState("");
 
     async function handleUpload(e) {
-        console.log(fileUploadElement.current.files[0]);
-        await axios.post("http://localhost:5000/audiosend", {
-            file: fileUploadElement.current.files[0].src,
-            privacy: 2,
-            username: loginData.username,
-            url: ""
-        })
-        .then(res => res.data)
-        
+        const file = fileUploadElement.current.files[0];
+        var formData = new FormData();
+        formData.append('file', file, file.name);
+        formData.append('privacy', 2);
+        formData.append('username', loginData.username);
+        axios.post('http://localhost:5000/audiosend', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        });
     }
 
     async function handleSubmit(e) {
         axios.post("http://localhost:5000/audiosend", {
-            file: "",
             privacy: 2,
             username: loginData.username,
             url: url

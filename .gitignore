@@ -1,6 +1,7 @@
 /server/venv/
 /server/**/__pycache__/
 /server/config.cfg
+/server/temp/*
 
 
 .DS_Store
