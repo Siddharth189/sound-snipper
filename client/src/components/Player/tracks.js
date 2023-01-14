@@ -4,7 +4,7 @@ import cali from "./assets/Ed_Sheeran-Perfect.mp3";
 import fifty from "./assets/Lady_Gaga,Bradley_Cooper-Shallow.mp3";
 
 // All of these artists are at https://pixabay.com/music/search/mood/laid%20back/
-export default [
+const tracks = [
   {
     title: "Ed Sheeran - Perfect (Official Music Video)",
     artist: "audiophile123",
@@ -20,3 +20,5 @@ export default [
     color: "#ffb77a"
   }
 ];
+
+export default tracks;

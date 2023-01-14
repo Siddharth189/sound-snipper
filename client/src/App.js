@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Body from './components/Body';
 import LoginContext from './contexts/LoginContext';
 import AudioContext from './contexts/AudioContext';
+import CommentsContext from './contexts/CommentsContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -11,6 +12,9 @@ function App() {
         loggedin: false,
         username: ""
     });
+    const [audio, setAudio] = useState(null);
+    const [comments, setComments] = useState([]);
+
 
     useEffect(() => {
         axios.post("http://localhost:5000/signin", {
@@ -26,13 +30,13 @@ function App() {
         })
     }, [])
 
-    const [audio, setAudio] = useState(null);
-
     return (
         <LoginContext.Provider value={{loginData, setLoginData}}>
         <AudioContext.Provider value={{audio, setAudio}}>
+        <CommentsContext.Provider value={{comments, setComments}}>
             <Header />
             <Body />
+        </CommentsContext.Provider>
         </AudioContext.Provider>
         </LoginContext.Provider>
     );

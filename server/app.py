@@ -191,8 +191,8 @@ def audiosend():
             loginID = request.form['username']
             file = request.files['file']
             audio_name = remove_ext(file.filename)
-            print(file)
             file.save(f"temp/{file.filename}")
+            id = 0
 
         else:
             url = request.json['url']
