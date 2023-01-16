@@ -6,7 +6,7 @@ import UploadButtons from "./UploadButtons";
 
 function Body() {
     return (
-        <div className="w-screen mt-24 pt-10 md:flex">
+        <div className="w-screen mt-20 pt-10 md:flex">
             <div className="flex-grow-[10] flex flex-col items-center">
                 <UploadButtons />
                 <div className="flex justify-around w-full">

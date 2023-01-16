@@ -17,27 +17,21 @@ module.exports = {
             },
             "grey": {
                 "custom": "#D9D9D9"
+            },
+            gr: {
+                1: '#fc4a1a',
+                2: '#f69431'
             }
         },
         fontFamily: {
             "nunito": "Nunito, sans-serif"
         },
         animation: {
-            'svgfill': "svgfill 0.5s linear forwards",
             dash: "dash 1.5s ease-in-out infinite",
-            spin: "spin 1.5s linear infinite"
+            spin: "spin 1.5s linear infinite",
+            gradient: 'gradient 4s linear infinite'
         },
         keyframes: {
-            'svgfill': {
-                '0%': {
-                    fill: "white",
-                    stroke: "#2E3192"
-                },
-                '100%': {
-                    fill: "#2E3192",
-                    stroke: "transparent"
-                }
-            },
             dash: {
                 '0%': {
                     'stroke-dasharray': '1, 200',
@@ -51,7 +45,17 @@ module.exports = {
                     'stroke-dasharray': '89, 200',
                     'stroke-dashoffset': '-124px'
                 }
-            }
+            },
+            gradient: {
+                '0%, 100%': {
+                    'background-position': '0% 50%',
+                    'background-size': '200%'
+                },
+                '50%': {
+                    'background-position': '100% 50%',
+                    'background-size': '200%'
+                }
+            },
         }
     },
   },

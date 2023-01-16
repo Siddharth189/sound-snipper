@@ -190,7 +190,7 @@ def audiosend():
             privacy_int = request.form['privacy']
             loginID = request.form['username']
             file = request.files['file']
-            audio_name = remove_ext(file.filename)
+            audio_name = remove_ext(file.filename) + ".mp3"
             file.save(f"temp/{file.filename}")
             id = 0
 
