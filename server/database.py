@@ -174,4 +174,4 @@ if __name__ == '__main__':
     # print(db.get_audio_privacy(5))
 
     # db.next_audio_id()
-
+    # db.delete_audio(1)

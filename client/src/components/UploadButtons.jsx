@@ -74,7 +74,7 @@ function UploadButtons() {
                     <IconContext.Provider value={{ size: "2em" }}> <AiOutlineUpload /> </IconContext.Provider>
                     Upload Media File
                 </button>
-                <input type="file" onChange={handleUpload} ref={fileUploadElement} name="audioupload" id="audioupload" className="hidden" accept="video/mp4 video/mkv" />
+                <input type="file" onChange={handleUpload} ref={fileUploadElement} name="audioupload" id="audioupload" className="hidden" accept="video/mp4 video/3gp video/mov video/m4a video/ogg video/avi" />
                 <input type="text" name="link" value={url} onChange={(e) => { setUrl(e.target.value) }} placeholder="Paste a link..." className=" rounded-xl bg-grey-custom px-2 placeholder:text-black/70 text-black/90 placeholder:italic w-72" />
                 <button className="bg-red-custom hover:bg-red-800 transition duration-200 rounded-lg py-1 pl-2 pr-3 font-semibold"
                     onClick={handleSubmit}>

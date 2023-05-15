@@ -8,6 +8,8 @@ from database import Database
 from utils.hash import hash
 from utils.rand_str import rand_str
 from utils.remove_ext import remove_ext
+from utils.convert import convert
+from utils.mp3bin import mp3_to_bin, bin_to_mp3
 
 os.chdir(__file__.replace(os.path.basename(__file__), ''))
 
@@ -16,6 +18,7 @@ CORS(app)
 
 db = Database()
 session = {}
+# static_audios
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
@@ -191,8 +194,17 @@ def audiosend():
             loginID = request.form['username']
             file = request.files['file']
             audio_name = remove_ext(file.filename) + ".mp3"
-            file.save(f"temp/{file.filename}")
-            id = 0
+
+            video_path = os.path.join("./temp", file.filename)
+            audio_path = os.path.join("./temp", audio_name)
+
+            file.save(video_path)
+            convert(video_path, audio_path)
+            bytes = mp3_to_bin(audio_path)
+            id = db.store_audio(bytes, loginID, audio_name, 0, privacy_int)
+
+            os.remove(video_path)
+            os.remove(audio_path)
 
         else:
             url = request.json['url']
